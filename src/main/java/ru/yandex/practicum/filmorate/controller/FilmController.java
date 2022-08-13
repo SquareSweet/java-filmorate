@@ -67,7 +67,7 @@ public class FilmController {
             log.warn("Ошибка при добавлении/обновлении фильма id={}: некорректная дата релиза", film.getId());
             return false;
         }
-        if (film.getDuration().isNegative()) {
+        if (film.getDuration() < 0) {
             log.warn("Ошибка при добавлении/обновлении фильма id={}: некорректная продолжительность", film.getId());
             return false;
         }

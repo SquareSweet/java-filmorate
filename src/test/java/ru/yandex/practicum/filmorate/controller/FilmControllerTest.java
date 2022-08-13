@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +25,7 @@ class FilmControllerTest {
                 "Test film name",
                 "*".repeat(200),
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         Film actualFilm = filmController.create(expectedFilm);
@@ -41,7 +40,7 @@ class FilmControllerTest {
                 "",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         assertThrows(
@@ -58,7 +57,7 @@ class FilmControllerTest {
                 "Test film Name",
                 "*".repeat(201),
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         assertThrows(
@@ -75,7 +74,7 @@ class FilmControllerTest {
                 "Test film Name",
                 "Test film description",
                 LocalDate.of(1800,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         assertThrows(
@@ -92,7 +91,7 @@ class FilmControllerTest {
                 "Test film Name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(-180)
+                -180
         );
 
         assertThrows(
@@ -109,7 +108,7 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
         filmController.create(film);
 
@@ -118,7 +117,7 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                Duration.ofMinutes(180)
+                180
         );
         Film actualFilm = filmController.create(expectedFilm);
 
@@ -132,7 +131,7 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
         filmController.create(film);
 
@@ -141,7 +140,7 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         assertThrows(
@@ -158,7 +157,7 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
         filmController.create(film);
 
@@ -167,7 +166,7 @@ class FilmControllerTest {
                 "",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         assertThrows(
@@ -184,7 +183,7 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
         filmController.create(film);
 
@@ -193,7 +192,7 @@ class FilmControllerTest {
                 "Test film updated name",
                 "*".repeat(201),
                 LocalDate.of(2008,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         assertThrows(
@@ -210,7 +209,7 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
         filmController.create(film);
 
@@ -219,7 +218,7 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(1800,12,25),
-                Duration.ofMinutes(180)
+                180
         );
 
         assertThrows(
@@ -236,7 +235,7 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                Duration.ofMinutes(180)
+                180
         );
         filmController.create(film);
 
@@ -245,7 +244,7 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                Duration.ofMinutes(-180)
+                -180
         );
 
         assertThrows(
