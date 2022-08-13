@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,17 +22,34 @@ public class UserController {
 
     @PostMapping
     User create(@RequestBody User user) {
-        users.put(user.getId(), user);
-        return user;
+        if (isValid(user)) {
+            users.put(user.getId(), user);
+            return user;
+        } else {
+            throw new ValidationException("Некорректно заполнены поля пользователя");
+        }
     }
 
     @PutMapping("/{userId}")
     User update(@PathVariable Integer userId, @RequestBody User user) {
-        if (userId == user.getId()) {
+        if (userId == user.getId() || !isValid(user)) {
             users.put(userId, user);
             return user;
         } else {
-            throw new ValidationException("Не совпадают id пользователя");
+            throw new ValidationException("Некорректно заполнены поля пользователя");
         }
+    }
+
+    private boolean isValid(User user) {
+        if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
+            return false;
+        }
+        if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
+            return false;
+        }
+        if (user.getBirthday().isAfter(LocalDate.now())) {
+            return false;
+        }
+        return true;
     }
 }
