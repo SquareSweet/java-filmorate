@@ -32,6 +32,9 @@ public class UserController {
     User create(@RequestBody User user) {
         if (isValid(user)) {
             user.setId(getNextId());
+            if (user.getName().isBlank()) {
+                user.setName(user.getLogin());
+            }
             users.put(user.getId(), user);
             log.info("Добавлен пользователь id={}", user.getId());
             return user;
@@ -48,6 +51,9 @@ public class UserController {
         } else if (!isValid(user)) {
             throw new ValidationException("Некорректно заполнены поля пользователя");
         } else {
+            if (user.getName().isBlank()) {
+                user.setName(user.getLogin());
+            }
             users.put(user.getId(), user);
             log.info("Обновлён пользователь id={}", user.getId());
             return user;
