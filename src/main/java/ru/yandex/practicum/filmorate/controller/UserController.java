@@ -34,16 +34,16 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}")
-    User update(@PathVariable Integer userId, @RequestBody User user) {
-        if (userId != user.getId()) {
-            log.warn("Ошибка при обновлении пользователя: не совпадают id");
-            throw new ValidationException("Не совпадают id пользователя");
+    @PutMapping
+    User update(@RequestBody User user) {
+        if (!users.containsKey(user.getId())) {
+            log.warn("Ошибка при обновлении пользователя: пользователя с id={} не существует", user.getId());
+            throw new ValidationException("Пользователя с id=" + user.getId() + " не существует");
         } else if (!isValid(user)) {
             throw new ValidationException("Некорректно заполнены поля пользователя");
         } else {
-            users.put(userId, user);
-            log.info("Обновлён пользователь id={}", userId);
+            users.put(user.getId(), user);
+            log.info("Обновлён пользователь id={}", user.getId());
             return user;
         }
     }

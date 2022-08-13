@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
+@RestController
 @RequestMapping("films")
 public class FilmController {
 
@@ -33,16 +34,16 @@ public class FilmController {
         }
     }
 
-    @PutMapping("/{filmId}")
-    Film update(@PathVariable Integer filmId, @RequestBody Film film) {
-        if (filmId != film.getId()) {
-            log.warn("Ошибка при обновлении фильма: не совпадают id");
-            throw new ValidationException("Не совпадают id фильма");
+    @PutMapping
+    Film update(@RequestBody Film film) {
+        if (!films.containsKey(film.getId())) {
+            log.warn("Ошибка при обновлении пользователя: пользователя с id={} не существует", film.getId());
+            throw new ValidationException("Пользователя с id=" + film.getId() + " не существует");
         } else if (!isValid(film)) {
             throw new ValidationException("Некорректно заполнены поля пользователя");
         } else {
-            films.put(filmId, film);
-            log.info("Обновлён фильм id={}", filmId);
+            films.put(film.getId(), film);
+            log.info("Обновлён фильм id={}", film.getId());
             return film;
         }
     }
