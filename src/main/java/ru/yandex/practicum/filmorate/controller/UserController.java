@@ -16,6 +16,11 @@ import java.util.List;
 public class UserController {
 
     private final HashMap<Integer,User> users = new HashMap<>();
+    private int nextId = 1;
+
+    private int getNextId() {
+        return nextId++;
+    }
 
     @GetMapping
     List<User> findAll() {
@@ -26,6 +31,7 @@ public class UserController {
     @PostMapping
     User create(@RequestBody User user) {
         if (isValid(user)) {
+            user.setId(getNextId());
             users.put(user.getId(), user);
             log.info("Добавлен пользователь id={}", user.getId());
             return user;

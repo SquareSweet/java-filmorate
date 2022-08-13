@@ -16,6 +16,11 @@ import java.util.List;
 public class FilmController {
 
     private final HashMap<Integer,Film> films = new HashMap<>();
+    private int nextId = 1;
+
+    private int getNextId() {
+        return nextId++;
+    }
 
     @GetMapping
     List<Film> findAll() {
@@ -26,6 +31,7 @@ public class FilmController {
     @PostMapping
     Film create(@RequestBody Film film) {
         if (isValid(film)) {
+            film.setId(getNextId());
             films.put(film.getId(), film);
             log.info("Добавлен фильм id={}", film.getId());
             return film;
