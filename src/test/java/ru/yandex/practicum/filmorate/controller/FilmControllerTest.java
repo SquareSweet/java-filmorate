@@ -22,7 +22,7 @@ class FilmControllerTest {
     @Test
     void createValid() {
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film name",
                 "*".repeat(200),
                 LocalDate.of(2007,12,25),
@@ -37,7 +37,7 @@ class FilmControllerTest {
     @Test
     void createNameEmpty() {
         Film expectedFilm = new Film(
-                0,
+                1,
                 "",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -54,7 +54,7 @@ class FilmControllerTest {
     @Test
     void createDescriptionTooLong() {
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film Name",
                 "*".repeat(201),
                 LocalDate.of(2007,12,25),
@@ -71,7 +71,7 @@ class FilmControllerTest {
     @Test
     void createInvalidReleaseDate() {
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film Name",
                 "Test film description",
                 LocalDate.of(1800,12,25),
@@ -88,7 +88,7 @@ class FilmControllerTest {
     @Test
     void createDurationNegative() {
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film Name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -105,7 +105,7 @@ class FilmControllerTest {
     @Test
     void updateValid() {
         Film film = new Film(
-                0,
+                1,
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -114,7 +114,7 @@ class FilmControllerTest {
         filmController.create(film);
 
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
@@ -128,7 +128,7 @@ class FilmControllerTest {
     @Test
     void updateInvalidId() {
         Film film = new Film(
-                0,
+                1,
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -137,7 +137,7 @@ class FilmControllerTest {
         filmController.create(film);
 
         Film expectedFilm = new Film(
-                1,
+                2,
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
@@ -154,7 +154,7 @@ class FilmControllerTest {
     @Test
     void updateNameEmpty() {
         Film film = new Film(
-                0,
+                1,
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -163,7 +163,7 @@ class FilmControllerTest {
         filmController.create(film);
 
         Film expectedFilm = new Film(
-                0,
+                1,
                 "",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
@@ -180,7 +180,7 @@ class FilmControllerTest {
     @Test
     void updateDescriptionTooLong() {
         Film film = new Film(
-                0,
+                1,
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -189,7 +189,7 @@ class FilmControllerTest {
         filmController.create(film);
 
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film updated name",
                 "*".repeat(201),
                 LocalDate.of(2008,12,25),
@@ -206,7 +206,7 @@ class FilmControllerTest {
     @Test
     void updateInvalidReleaseDate() {
         Film film = new Film(
-                0,
+                1,
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -215,7 +215,7 @@ class FilmControllerTest {
         filmController.create(film);
 
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(1800,12,25),
@@ -232,7 +232,7 @@ class FilmControllerTest {
     @Test
     void updateDurationNegative() {
         Film film = new Film(
-                0,
+                1,
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
@@ -241,7 +241,7 @@ class FilmControllerTest {
         filmController.create(film);
 
         Film expectedFilm = new Film(
-                0,
+                1,
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),

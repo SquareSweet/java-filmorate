@@ -16,7 +16,7 @@ import java.util.List;
 public class FilmController {
 
     private final HashMap<Integer,Film> films = new HashMap<>();
-    private int nextId = 0;
+    private int nextId = 1;
 
     private int getNextId() {
         return nextId++;

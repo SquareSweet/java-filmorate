@@ -21,7 +21,7 @@ class UserControllerTest {
     @Test
     void createValid() {
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -36,7 +36,7 @@ class UserControllerTest {
     @Test
     void createInvalidEmail() {
         User expectedUser = new User(
-                0,
+                1,
                 "testemail.com",
                 "testLogin",
                 "Test user name",
@@ -53,7 +53,7 @@ class UserControllerTest {
     @Test
     void createEmptyEmail() {
         User expectedUser = new User(
-                0,
+                1,
                 "",
                 "testLogin",
                 "Test user name",
@@ -70,7 +70,7 @@ class UserControllerTest {
     @Test
     void createInvalidLogin() {
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.com",
                 "test login",
                 "Test user name",
@@ -87,7 +87,7 @@ class UserControllerTest {
     @Test
     void createEmptyLogin() {
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.com",
                 "",
                 "Test user name",
@@ -104,7 +104,7 @@ class UserControllerTest {
     @Test
     void createInvalidDate() {
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -121,7 +121,7 @@ class UserControllerTest {
     @Test
     void updateValid() {
         User user = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -130,7 +130,7 @@ class UserControllerTest {
         userController.create(user);
 
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.ru",
                 "testLoginUpdated",
                 "Test user updated name",
@@ -145,7 +145,7 @@ class UserControllerTest {
     @Test
     void updateInvalidEmail() {
         User user = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -154,7 +154,7 @@ class UserControllerTest {
         userController.create(user);
 
         User expectedUser = new User(
-                0,
+                1,
                 "testemail.com",
                 "testLogin",
                 "Test user name",
@@ -171,7 +171,7 @@ class UserControllerTest {
     @Test
     void updateEmptyEmail() {
         User user = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -180,7 +180,7 @@ class UserControllerTest {
         userController.create(user);
 
         User expectedUser = new User(
-                0,
+                1,
                 "",
                 "testLogin",
                 "Test user name",
@@ -197,7 +197,7 @@ class UserControllerTest {
     @Test
     void updateInvalidLogin() {
         User user = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -206,7 +206,7 @@ class UserControllerTest {
         userController.create(user);
 
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.com",
                 "test login",
                 "Test user name",
@@ -223,7 +223,7 @@ class UserControllerTest {
     @Test
     void updateEmptyLogin() {
         User user = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -232,7 +232,7 @@ class UserControllerTest {
         userController.create(user);
 
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.com",
                 "",
                 "Test user name",
@@ -249,7 +249,7 @@ class UserControllerTest {
     @Test
     void updateInvalidDate() {
         User user = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
@@ -258,7 +258,7 @@ class UserControllerTest {
         userController.create(user);
 
         User expectedUser = new User(
-                0,
+                1,
                 "test@email.com",
                 "testLogin",
                 "Test user name",
