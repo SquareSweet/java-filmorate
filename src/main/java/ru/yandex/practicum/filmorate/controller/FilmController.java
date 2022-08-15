@@ -43,10 +43,10 @@ public class FilmController {
     @PutMapping
     Film update(@RequestBody Film film) {
         if (!films.containsKey(film.getId())) {
-            log.warn("Ошибка при обновлении пользователя: пользователя с id={} не существует", film.getId());
-            throw new ValidationException("Пользователя с id=" + film.getId() + " не существует");
+            log.warn("Ошибка при обновлении фильма: пользователя с id={} не существует", film.getId());
+            throw new ValidationException("Фильма с id=" + film.getId() + " не существует");
         } else if (!isValid(film)) {
-            throw new ValidationException("Некорректно заполнены поля пользователя");
+            throw new ValidationException("Некорректно заполнены поля фильма");
         } else {
             films.put(film.getId(), film);
             log.info("Обновлён фильм id={}", film.getId());
