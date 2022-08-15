@@ -61,15 +61,15 @@ public class UserController {
     }
 
     private boolean isValid(User user) {
-        if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
+        if (user.getEmail() == null || user.getEmail().isBlank() || !user.getEmail().contains("@")) {
             log.warn("Ошибка при добавлении/обновлении пользователя id={}: некорректный email", user.getId());
             return false;
         }
-        if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
+        if (user.getLogin() == null || user.getLogin().isBlank() || user.getLogin().contains(" ")) {
             log.warn("Ошибка при добавлении/обновлении пользователя id={}: некорректный логин", user.getId());
             return false;
         }
-        if (user.getBirthday().isAfter(LocalDate.now())) {
+        if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
             log.warn("Ошибка при добавлении/обновлении пользователя id={}: некорректная дата", user.getId());
             return false;
         }
