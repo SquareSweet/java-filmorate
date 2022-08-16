@@ -59,11 +59,11 @@ public class FilmController {
             log.warn("Ошибка при добавлении/обновлении фильма id={}: пустое название", film.getId());
             return false;
         }
-        if (film.getDescription() != null && film.getDescription().length() > 200) {
+        if (film.getDescription() == null || film.getDescription().length() > 200) {
             log.warn("Ошибка при добавлении/обновлении фильма id={}: длина описания больше 200 символов", film.getId());
             return false;
         }
-        if (film.getReleaseDate()!= null && film.getReleaseDate().isBefore(LocalDate.of(1895,12,28))) {
+        if (film.getReleaseDate() == null || film.getReleaseDate().isBefore(LocalDate.of(1895,12,28))) {
             log.warn("Ошибка при добавлении/обновлении фильма id={}: некорректная дата релиза", film.getId());
             return false;
         }

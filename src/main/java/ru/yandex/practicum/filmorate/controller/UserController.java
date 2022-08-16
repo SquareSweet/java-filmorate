@@ -69,7 +69,7 @@ public class UserController {
             log.warn("Ошибка при добавлении/обновлении пользователя id={}: некорректный логин", user.getId());
             return false;
         }
-        if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
+        if (user.getBirthday() == null || user.getBirthday().isAfter(LocalDate.now())) {
             log.warn("Ошибка при добавлении/обновлении пользователя id={}: некорректная дата", user.getId());
             return false;
         }
