@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.List;
 
@@ -13,30 +13,45 @@ import java.util.List;
 @RequestMapping("films")
 public class FilmController {
 
-    private final FilmStorage filmStorage;
+    private final FilmService service;
 
     @Autowired
-    FilmController(FilmStorage filmStorage) {
-        this.filmStorage = filmStorage;
+    FilmController(FilmService filmService) {
+        this.service = filmService;
     }
 
     @GetMapping
     List<Film> findAll() {
-        return filmStorage.getAll();
+        return service.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     Film find(@PathVariable int id) {
-        return filmStorage.get(id);
+        return service.get(id);
     }
 
     @PostMapping
     Film create(@RequestBody Film film) {
-        return filmStorage.create(film);
+        return service.create(film);
     }
 
     @PutMapping
     Film update(@RequestBody Film film) {
-        return filmStorage.update(film);
+        return service.update(film);
+    }
+
+    @PutMapping("{id}/like/{userId}")
+    Film putLike(@PathVariable int id, @PathVariable int userId) {
+        return service.putLike(id, userId);
+    }
+
+    @DeleteMapping("{id}/like/{userId}")
+    Film deleteLike(@PathVariable int id, @PathVariable int userId) {
+        return service.deleteLike(id, userId);
+    }
+
+    @GetMapping("popular")
+    List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
+        return service.getPopular(count);
     }
 }
