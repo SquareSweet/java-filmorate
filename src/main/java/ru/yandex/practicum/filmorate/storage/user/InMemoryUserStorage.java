@@ -39,7 +39,6 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User update(User user) {
         if (!users.containsKey(user.getId())) {
-            log.warn("Ошибка при обновлении пользователя: пользователя с id={} не существует", user.getId());
             throw new NotFoundException("Пользователя с id=" + user.getId() + " не существует");
         } else if (!isValid(user)) {
             throw new ValidationException("Некорректно заполнены поля пользователя");
@@ -60,12 +59,10 @@ public class InMemoryUserStorage implements UserStorage {
         } else {
             throw new NotFoundException("Пользователя id=" + id + " не существует");
         }
-
     }
 
     @Override
     public List<User> getAll() {
-        log.info("Получен запрос на полный список пользователей");
         return new ArrayList<>(users.values());
     }
 

@@ -37,7 +37,6 @@ public class InMemoryFilmStorage implements FilmStorage{
     @Override
     public Film update(Film film) {
         if (!films.containsKey(film.getId())) {
-            log.warn("Ошибка при обновлении фильма: фильма с id={} не существует", film.getId());
             throw new NotFoundException("Фильма с id=" + film.getId() + " не существует");
         } else if (!isValid(film)) {
             throw new ValidationException("Некорректно заполнены поля фильма");
@@ -50,18 +49,15 @@ public class InMemoryFilmStorage implements FilmStorage{
 
     @Override
     public Film get(int id) {
-        log.info("Получен запрос на получение фильма id={}", id);
         if (films.containsKey(id)) {
             return films.get(id);
         } else {
             throw new NotFoundException("Фильма id=" + id + " не существует");
         }
-
     }
 
     @Override
     public List<Film> getAll() {
-        log.info("Получен запрос на полный список фильмов");
         return new ArrayList<>(films.values());
     }
 
