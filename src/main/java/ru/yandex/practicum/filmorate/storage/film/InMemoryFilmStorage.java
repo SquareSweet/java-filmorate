@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class InMemoryFilmStorage implements FilmStorage{
+public class InMemoryFilmStorage implements FilmStorage {
     private final HashMap<Integer,Film> films = new HashMap<>();
 
     private int nextId = 1;
