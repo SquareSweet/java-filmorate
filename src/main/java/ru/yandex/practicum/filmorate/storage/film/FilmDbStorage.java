@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.model.Mpa;
+import ru.yandex.practicum.filmorate.storage.genre.GenreStorage;
+import ru.yandex.practicum.filmorate.storage.mpa.MpaStorage;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -23,9 +25,14 @@ import java.util.Set;
 @Qualifier("dbStorage")
 public class FilmDbStorage implements FilmStorage {
     private final JdbcTemplate jdbcTemplate;
+    private final GenreStorage genreStorage;
+    private final MpaStorage mpaStorage;
 
-    public FilmDbStorage (JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public FilmDbStorage (JdbcTemplate jdbcTemplate, GenreStorage genreStorage, MpaStorage mpaStorage) {
         this.jdbcTemplate = jdbcTemplate;
+        this.genreStorage = genreStorage;
+        this.mpaStorage = mpaStorage;
     }
 
     @Override
@@ -46,12 +53,7 @@ public class FilmDbStorage implements FilmStorage {
 
         film.setId(keyHolder.getKey().intValue());
 
-        String ratingSql = "SELECT * FROM mpa_ratings WHERE id = ?";
-        film.setMpa(jdbcTemplate.queryForObject(
-                ratingSql,
-                (ratingRs, rowNum) -> mapRowMpa(ratingRs),
-                film.getMpa().getId()
-        ));
+        film.setMpa(mpaStorage.get(film.getMpa().getId()));
 
         updateGenres(film.getId(), film.getGenres());
         updateLikes(film.getId(), film.getLikes());
@@ -83,12 +85,7 @@ public class FilmDbStorage implements FilmStorage {
                     film.getId()
             );
 
-            String ratingSql = "SELECT * FROM mpa_ratings WHERE id = ?";
-            film.setMpa(jdbcTemplate.queryForObject(
-                    ratingSql,
-                    (ratingRs, rowNum) -> mapRowMpa(ratingRs),
-                    film.getMpa().getId()
-            ));
+            film.setMpa(mpaStorage.get(film.getMpa().getId()));
 
             updateGenres(film.getId(), film.getGenres());
             updateLikes(film.getId(), film.getLikes());
@@ -153,30 +150,19 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private Film mapRowFilm(ResultSet rs) throws SQLException {
-        String ratingSql = "SELECT * FROM mpa_ratings WHERE id = ?";
-
         Film film = new Film(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("description"),
                 rs.getDate("release_date").toLocalDate(),
                 rs.getInt("duration"),
-                jdbcTemplate.queryForObject(
-                        ratingSql,
-                        (ratingRs, rowNum) -> mapRowMpa(ratingRs),
-                        rs.getInt("mpa")
-                )
+                mpaStorage.get(rs.getInt("mpa"))
         );
 
         String sql = "SELECT * FROM film_genre WHERE film_id = ?";
-        String genreSql = "SELECT * FROM genres WHERE id = ?";
         SqlRowSet genreRows = jdbcTemplate.queryForRowSet(sql, film.getId());
         while (genreRows.next()) {
-            film.getGenres().add(jdbcTemplate.queryForObject(
-                    genreSql,
-                    (genreRs, rowNum) -> mapRowGenre(genreRs),
-                    genreRows.getInt("genre_id")
-            ));
+            film.getGenres().add(genreStorage.get(genreRows.getInt("genre_id")));
         }
 
         sql = "SELECT * FROM film_likes WHERE film_id = ?";
@@ -186,19 +172,5 @@ public class FilmDbStorage implements FilmStorage {
         }
 
         return film;
-    }
-
-    private Genre mapRowGenre(ResultSet rs) throws SQLException {
-        return new Genre(
-                rs.getInt("id"),
-                rs.getString("name")
-        );
-    }
-
-    private Mpa mapRowMpa(ResultSet rs) throws SQLException {
-        return new Mpa(
-                rs.getInt("id"),
-                rs.getString("name")
-        );
     }
 }
