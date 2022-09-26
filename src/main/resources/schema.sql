@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS film_likes;
 DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS films;
-DROP TABLE IF EXISTS ratings;
+DROP TABLE IF EXISTS mpa_ratings;
 
 CREATE TABLE IF NOT EXISTS users
 (
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS users
 
 CREATE TABLE IF NOT EXISTS user_friend
 (
-    user_id   int     NOT NULL,
-    friend_id int     NOT NULL
+    user_id   int NOT NULL,
+    friend_id int NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS films
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS films
     id           int PRIMARY KEY AUTO_INCREMENT,
     name         varchar(100) NOT NULL,
     description  varchar(200) NOT NULL,
-    rating       int NOT NULL,
+    mpa          int          NOT NULL,
     release_date date,
     duration     int
 );
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS film_likes
     user_id int NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS ratings
+CREATE TABLE IF NOT EXISTS mpa_ratings
 (
     id   int PRIMARY KEY AUTO_INCREMENT,
     name varchar(10) NOT NULL
@@ -64,8 +64,8 @@ ALTER TABLE user_friend
         REFERENCES users (id);
 
 ALTER TABLE films
-    ADD CONSTRAINT IF NOT EXISTS fk_ratings FOREIGN KEY (rating)
-        REFERENCES ratings (id);
+    ADD CONSTRAINT IF NOT EXISTS fk_mpa_ratings FOREIGN KEY (mpa)
+        REFERENCES mpa_ratings (id);
 
 ALTER TABLE film_genre
     ADD CONSTRAINT IF NOT EXISTS fk_film_genre_film_id FOREIGN KEY (film_id)

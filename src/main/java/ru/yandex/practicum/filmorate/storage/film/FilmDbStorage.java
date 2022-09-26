@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.model.Rating;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -30,7 +30,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film create(Film film) {
-        String sql = "INSERT INTO films (name, description, rating, release_date, duration) " +
+        String sql = "INSERT INTO films (name, description, mpa, release_date, duration) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -46,10 +46,10 @@ public class FilmDbStorage implements FilmStorage {
 
         film.setId(keyHolder.getKey().intValue());
 
-        String ratingSql = "SELECT * FROM ratings WHERE id = ?";
+        String ratingSql = "SELECT * FROM mpa_ratings WHERE id = ?";
         film.setMpa(jdbcTemplate.queryForObject(
                 ratingSql,
-                (ratingRs, rowNum) -> mapRowRating(ratingRs),
+                (ratingRs, rowNum) -> mapRowMpa(ratingRs),
                 film.getMpa().getId()
         ));
 
@@ -68,7 +68,7 @@ public class FilmDbStorage implements FilmStorage {
             sql = "UPDATE films SET " +
                     "name = ?, " +
                     "description = ?, " +
-                    "rating = ?, " +
+                    "mpa = ?, " +
                     "release_date = ?, " +
                     "duration = ? " +
                     "WHERE id = ?";
@@ -83,10 +83,10 @@ public class FilmDbStorage implements FilmStorage {
                     film.getId()
             );
 
-            String ratingSql = "SELECT * FROM ratings WHERE id = ?";
+            String ratingSql = "SELECT * FROM mpa_ratings WHERE id = ?";
             film.setMpa(jdbcTemplate.queryForObject(
                     ratingSql,
-                    (ratingRs, rowNum) -> mapRowRating(ratingRs),
+                    (ratingRs, rowNum) -> mapRowMpa(ratingRs),
                     film.getMpa().getId()
             ));
 
@@ -153,7 +153,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private Film mapRowFilm(ResultSet rs) throws SQLException {
-        String ratingSql = "SELECT * FROM ratings WHERE id = ?";
+        String ratingSql = "SELECT * FROM mpa_ratings WHERE id = ?";
 
         Film film = new Film(
                 rs.getInt("id"),
@@ -163,8 +163,8 @@ public class FilmDbStorage implements FilmStorage {
                 rs.getInt("duration"),
                 jdbcTemplate.queryForObject(
                         ratingSql,
-                        (ratingRs, rowNum) -> mapRowRating(ratingRs),
-                        rs.getInt("rating")
+                        (ratingRs, rowNum) -> mapRowMpa(ratingRs),
+                        rs.getInt("mpa")
                 )
         );
 
@@ -175,7 +175,7 @@ public class FilmDbStorage implements FilmStorage {
             film.getGenres().add(jdbcTemplate.queryForObject(
                     genreSql,
                     (genreRs, rowNum) -> mapRowGenre(genreRs),
-                    film.getId()
+                    genreRows.getInt("genre_id")
             ));
         }
 
@@ -195,8 +195,8 @@ public class FilmDbStorage implements FilmStorage {
         );
     }
 
-    private Rating mapRowRating(ResultSet rs) throws SQLException {
-        return new Rating(
+    private Mpa mapRowMpa(ResultSet rs) throws SQLException {
+        return new Mpa(
                 rs.getInt("id"),
                 rs.getString("name")
         );
