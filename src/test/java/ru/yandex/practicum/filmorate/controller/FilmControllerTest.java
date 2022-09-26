@@ -1,25 +1,28 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import org.junit.jupiter.api.BeforeEach;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
-import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
+@AutoConfigureTestDatabase
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 class FilmControllerTest {
 
+    @Autowired
     private FilmController filmController;
-
-    @BeforeEach
-    void updateController() {
-        filmController = new FilmController(new FilmService(new InMemoryFilmStorage()));
-    }
 
     @Test
     void createValid() {
@@ -28,7 +31,8 @@ class FilmControllerTest {
                 "Test film name",
                 "*".repeat(200),
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         Film actualFilm = filmController.create(expectedFilm);
@@ -43,7 +47,8 @@ class FilmControllerTest {
                 "",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -60,7 +65,8 @@ class FilmControllerTest {
                 "Test film Name",
                 "*".repeat(201),
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -77,7 +83,8 @@ class FilmControllerTest {
                 "Test film Name",
                 "Test film description",
                 LocalDate.of(1800,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -94,7 +101,8 @@ class FilmControllerTest {
                 "Test film Name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                -180
+                -180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -111,7 +119,8 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
         filmController.create(film);
 
@@ -120,7 +129,8 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
         Film actualFilm = filmController.create(expectedFilm);
 
@@ -134,7 +144,8 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
         filmController.create(film);
 
@@ -143,7 +154,8 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -160,7 +172,8 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
         filmController.create(film);
 
@@ -169,7 +182,8 @@ class FilmControllerTest {
                 "",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -186,7 +200,8 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
         filmController.create(film);
 
@@ -195,7 +210,8 @@ class FilmControllerTest {
                 "Test film updated name",
                 "*".repeat(201),
                 LocalDate.of(2008,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -212,7 +228,8 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
         filmController.create(film);
 
@@ -221,7 +238,8 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(1800,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
@@ -238,7 +256,8 @@ class FilmControllerTest {
                 "Test film name",
                 "Test film description",
                 LocalDate.of(2007,12,25),
-                180
+                180,
+                new Mpa(1, "G")
         );
         filmController.create(film);
 
@@ -247,7 +266,8 @@ class FilmControllerTest {
                 "Test film updated name",
                 "Test film updated description",
                 LocalDate.of(2008,12,25),
-                -180
+                -180,
+                new Mpa(1, "G")
         );
 
         assertThrows(
